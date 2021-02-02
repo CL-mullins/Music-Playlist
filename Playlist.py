@@ -23,11 +23,11 @@ class Playlist:
     counter = 0
 
     while current_song != None:
-      if current_song == title:
-        return current_song
+      if current_song.get_title() == title:
+        return counter
       counter += 1
       current_song = current_song.next 
-    return
+    return -1
 
 
   # TODO: Create a method called remove_song that removes a song from the playlist. This method takes one parameter, title, which is the song that should be removed. 
@@ -40,20 +40,41 @@ class Playlist:
     #seems counter intuitive to be like: since it isn't found, do this
     #when we haven't found it yet.
     while current_node.get_title() != None:
+      #Song found at index 1
+      if current_node.get_title() != title:
+        previous = current_node
+        current_node = current_node.next
+
+      if current_node.get_title() == title:
+        #If we're on the first song...
+        if previous == None:
+          #Remove the first song
+          self.__first_song = None
+          return
+        #If next pointer is pointing to none, we're on the last song
+        if current_node.next == None:
+          #Remove last song
+          previous.next = None
+          return
+        previous.next = current_node.next
+        return
+          
+
+
       #setting previousSong.next() = currentSong.next()
 
-    while not found:
-      if current_node == title: #If we want to remove the head
-        current_node = current_node.get_next_song()
-      else: 
-        previous = current_node
-        current_node = current_node.get_next_song()
-        if found == True:
-          if previous == None:
-            self.__first_song = current_node.get_title()
-          else:
-            current_node = current_node.get_next_song() #Moving the index over one
-            previous.set_next_song(current_node.get_next_song())
+    # while not found:
+    #   if current_node == title: #If we want to remove the head
+    #     current_node = current_node.get_next_song()
+    #   else: 
+    #     previous = current_node
+    #     current_node = current_node.get_next_song()
+    #     if found == True:
+    #       if previous == None:
+    #         self.__first_song = current_node.get_title()
+    #       else:
+    #         current_node = current_node.get_next_song() #Moving the index over one
+    #         previous.set_next_song(current_node.get_next_song())
 
 
 
@@ -78,6 +99,12 @@ class Playlist:
   # 3. Song Title 3
 
   def print_songs(self):
+    counter = 1
+    current_song = self.__first_song
+    while current_song != None:
+      print(f'{current_song} {counter}')
+      counter += 1
+      current_song = current_song.next
     pass
 
   
