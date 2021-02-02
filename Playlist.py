@@ -28,7 +28,6 @@ class Playlist:
       counter += 1
       current_song = current_song.next 
     return
-    pass
 
 
   # TODO: Create a method called remove_song that removes a song from the playlist. This method takes one parameter, title, which is the song that should be removed. 
@@ -36,19 +35,26 @@ class Playlist:
   def remove_song(self, title):
     current_node = self.__first_song
     previous = None
-    found = False
     
-    while not found:
-      if current_node == title:
-        found = True
-      else:
-        current = current_node.get_next_song()
-        previous = current
+    #WHere are we searching for the title?
+    #seems counter intuitive to be like: since it isn't found, do this
+    #when we haven't found it yet.
+    while current_node.get_title() != None:
+      #setting previousSong.next() = currentSong.next()
 
-      if previous == None:
-        self.__first_song = current_node.get_next_song()
-      else:
-        previous.set_next_song(current_node.get_next_song())
+    while not found:
+      if current_node == title: #If we want to remove the head
+        current_node = current_node.get_next_song()
+      else: 
+        previous = current_node
+        current_node = current_node.get_next_song()
+        if found == True:
+          if previous == None:
+            self.__first_song = current_node.get_title()
+          else:
+            current_node = current_node.get_next_song() #Moving the index over one
+            previous.set_next_song(current_node.get_next_song())
+
 
 
 
